@@ -13,6 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = 3005;
 
+app.get("/working", (req, res) => {
+  console.log("it works");
+  res.send("It's working!");
+});
+
 app.post("/api/files", upload.single("file"), (req, res) => {
   const { originalname: fileName, path: filePath } = req.file;
   console.log(req.file);
