@@ -4,7 +4,6 @@ const submitFileBtn = document.querySelector(".fileSubmit");
 const uploadFileBtn = document.querySelector(".fileInfo");
 const fileInfo = document.querySelector(".fileInfo");
 const reader = new FileReader();
-const req = window.indexedDB.open("testdb", 3);
 
 const handleFiles = async (e) => {
   let file = e.target.files[0];
@@ -21,25 +20,28 @@ const handleFiles = async (e) => {
   URL.revokeObjectURL(obj_url);
 };
 
-req.onupgradeneeded = (event) => {
-  const db = event.target.result;
+// IGNORE - TEST CODE FOR TRYING TO STORE DATA IN INDEXDB
+// -------------------
+// const req = window.indexedDB.open("testdb", 3);
+// req.onupgradeneeded = (event) => {
+//   const db = event.target.result;
 
-  if (!db) {
-    console.log(
-      "Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available."
-    );
-  }
-  console.log(db);
+//   if (!db) {
+//     console.log(
+//       "Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available."
+//     );
+//   }
+//   console.log(db);
 
-  // create object store
-  const objectStore = db.createObjectStore("files", { keyPath: "fileInfo" });
+//   // create object store
+//   const objectStore = db.createObjectStore("files", { keyPath: "fileInfo" });
 
-  objectStore.transaction.oncomplete = (event) => {
-    const fileObjectStore = db
-      .transaction("files", "readwrite")
-      .objectStore("files");
-  };
-};
+//   objectStore.transaction.oncomplete = (event) => {
+//     const fileObjectStore = db
+//       .transaction("files", "readwrite")
+//       .objectStore("files");
+//   };
+// };
 
 submitFileBtn.addEventListener("click", async (e) => {
   let file;
