@@ -4,17 +4,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minio File App</title>
-    <form action="">
+  </head>
+  <body>
+    <form action="none" method="get">
       <div class="user">
         <label for=""> Username </label>
-        <input type="text" />
+        <input type="text" autocomplete="username" />
       </div>
       <div class="pass">
         <label for=""> Password </label>
-        <input type="password" name="" id="" />
+        <input type="password" autocomplete="current-password" />
       </div>
-      <button>Log in</button>
+      <button type="submit">Log in</button>
     </form>
-  </head>
-  <body></body>
+
+    <form class="upload" enctype="multipart/form-data" method="post">
+      <label for="file"> Choose a file to upload:</label>
+      <input
+        type="file"
+        class="fileInfo"
+        name="file"
+        id=""
+        accept="image/*, .pdf"
+      />
+      <button class="fileSubmit" type="submit">Save</button>
+    </form>
+
+    <iframe class="view" frameborder="0"></iframe>
+    <script src="minio.js"></script>
+  </body>
 </html>
