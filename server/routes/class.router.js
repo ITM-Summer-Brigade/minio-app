@@ -12,6 +12,6 @@ classRouter.use((req, res, next) => {
 });
 
 // set api routes
-classRouter.get("/", classController.working);
+classRouter.get("/", classController.createClass);
 
 module.exports = classRouter;
