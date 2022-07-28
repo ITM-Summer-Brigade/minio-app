@@ -30,7 +30,7 @@ const makeBucket = (bucketName, fileName, filePath) => {
     function (err, etag) {
       if (err) {
         console.log(err);
-        return err.message;
+        return err;
       }
       console.log("File uploaded successfully.");
     }

@@ -23,8 +23,7 @@ app.post("/api/files", upload.single("file"), (req, res) => {
   console.log(req.file);
   console.log(typeof req.file);
   bucketName = "testdevbucket";
-  const err = makeBucket(bucketName, fileName, filePath);
-
+  makeBucket(bucketName, fileName, filePath);
   res.send({
     message: "Bucket created successfully",
   });
