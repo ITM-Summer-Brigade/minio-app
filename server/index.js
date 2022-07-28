@@ -6,8 +6,13 @@ const app = express();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
+// set up cors
 const cors = require("cors");
+const classRouter = require("./routes/class.router");
+const authRouter = require("./routes/auth.router");
 app.use(cors());
+
+// set up form parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -28,6 +33,10 @@ app.post("/api/files", upload.single("file"), (req, res) => {
     message: "Bucket created successfully",
   });
 });
+
+// activate routers
+app.use("/class", classRouter);
+app.use("/auth", authRouter);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
