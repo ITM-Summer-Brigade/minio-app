@@ -64,7 +64,7 @@ const postFileData = async (formData) => {
     bucketName: "testdevbucket",
     fileName: uploadFileBtn.files[0].name,
   };
-  const res = await fetch("http://localhost:3005/api/files", {
+  const res = await fetch("http://192.168.172.78:3005/api/files", {
     method: "POST",
     headers: {
       "Access-Control-Allow-Origin": "*",
