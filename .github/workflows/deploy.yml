@@ -25,8 +25,5 @@ jobs:
       - uses: actions/checkout@v3
 
       # Steps to deploy
-      - name: Figure out where files are
-        run: ls
-
       - name: Deploy the docker compose container
-        run: sudo docker compose up --build 
+        run: sudo docker compose up -d --build 
