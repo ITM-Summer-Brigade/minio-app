@@ -26,10 +26,7 @@ jobs:
 
       # Steps to deploy
       - name: Figure out where files are
-        run: ls && ls ~
-
-      - name: Navigate to folder
-        run: cd /minio-fileapp
+        run: ls
 
       - name: Deploy the docker compose container
         run: sudo docker compose up --build
