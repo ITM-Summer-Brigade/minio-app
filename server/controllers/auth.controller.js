@@ -25,14 +25,14 @@ function getAllUsers(req, res) {
 
 // Prisma
 async function createUserPrisma(req, res) {
-  const { username } = req.body;
+  const { name, username } = req.body;
   const existingUser = await findUser(username);
   if (existingUser) {
     return res
       .status(400)
       .json({ message: "User with that email already exists" });
   }
-  const user = await createPrismaUser(username);
+  const user = await createPrismaUser(name, username);
   console.log(user);
   return res.status(200).json({ message: "User created successfully" });
 }

@@ -37,6 +37,7 @@ const validatePUser = validate([
     .isEmail()
     .withMessage("Must be a valid email")
     .normalizeEmail(),
+  body("name", "Name field must not be empty").not().isEmpty(),
 ]);
 
 module.exports = { validateUser, checkUserExists, validatePUser };
