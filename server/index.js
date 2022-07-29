@@ -25,6 +25,9 @@ app.get("/working", (req, res) => {
 
 app.post("/api/files", upload.single("file"), (req, res) => {
   const { originalname: fileName, path: filePath } = req.file;
+  if (!req.file) {
+    return res.status(400).json({ message: "Missing a file to upload" });
+  }
   console.log(req.file);
   console.log(typeof req.file);
   bucketName = "testdevbucket";
