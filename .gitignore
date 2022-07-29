@@ -97,3 +97,6 @@ out
 
 # File upload testing
 uploads/
+
+# Database
+*.db-journal
