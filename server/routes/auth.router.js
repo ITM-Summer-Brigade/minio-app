@@ -2,7 +2,11 @@ const express = require("express");
 const { check, body } = require("express-validator");
 
 // validation middleware
-const { validateUser, checkUserExists } = require("../util/validator");
+const {
+  validateUser,
+  checkUserExists,
+  validatePUser,
+} = require("../util/validator");
 
 // import controllers code
 const authController = require("../controllers/auth.controller");
@@ -24,5 +28,7 @@ authRouter.post(
   authController.createUser
 );
 authRouter.get("/user", authController.getAllUsers);
+authRouter.post("/puser", validatePUser, authController.createUserPrisma);
+authRouter.get("/puser", authController.getPrismaUsers);
 
 module.exports = authRouter;
