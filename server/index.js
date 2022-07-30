@@ -14,6 +14,7 @@ const upload = multer({ dest: "uploads/" });
 const cors = require("cors");
 const classRouter = require("./routes/class.router");
 const authRouter = require("./routes/auth.router");
+const subjectRouter = require("./routes/subject.router");
 app.use(cors());
 
 // set up form parsing
@@ -44,6 +45,7 @@ app.post("/api/files", upload.single("file"), (req, res) => {
 // activate routers
 app.use("/class", classRouter);
 app.use("/auth", authRouter);
+app.use("/subject", subjectRouter);
 
 app.listen(port, () => {
   // initialize the database

@@ -8,5 +8,6 @@ const subjectRouter = express.Router();
 
 // set api routes
 subjectRouter.get("/", subjectController.getAllSubjects);
+subjectRouter.get("/:subjectId", subjectController.getSubjectById);
 
 module.exports = subjectRouter;

@@ -9,6 +9,14 @@ const findAllClasses = async () => {
   return await prisma.class.findMany({});
 };
 
+const findClassesBySubject = async (subjectID) => {
+  return await prisma.class.findMany({
+    where: {
+      subjectID: parseInt(subjectID),
+    },
+  });
+};
+
 const findClass = async (classUrl) => {
   return await prisma.class.findUnique({
     where: {
@@ -48,4 +56,5 @@ module.exports = {
   findAllClasses,
   createClass,
   findClass,
+  findClassesBySubject,
 };

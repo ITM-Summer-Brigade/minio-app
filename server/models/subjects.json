@@ -10,5 +10,13 @@
     {
         "subjectName": "Chemistry",
         "abbreviation": "CHEM"
+    },
+    {
+        "subjectName": "Information Technology",
+        "abbreviation": "IT"
+    },
+    {
+        "subjectName": "Psychology",
+        "abbreviation": "PSYCH"
     }
 ]

@@ -2,6 +2,7 @@ const {
   findAllClasses,
   createClass,
   findClass,
+  findClassesBySubject,
 } = require("../models/class.model");
 
 // On class creation, a bucket should be created for the class and the person
@@ -40,4 +41,14 @@ async function getAllClasses(req, res) {
   return res.json(classList);
 }
 
-module.exports = { getAllClasses, postClass };
+async function getAllClassesBySubject(req, res) {
+  const { subjectId } = req.params;
+  const classList = await findClassesBySubject(subjectId);
+  // get classes
+  if (!classList.length) {
+    return res.status(404).json({ message: "No classes found" });
+  }
+  return res.json(classList);
+}
+
+module.exports = { getAllClasses, postClass, getAllClassesBySubject };

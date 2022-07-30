@@ -19,14 +19,21 @@ const initSubjects = async () => {
   //   });
   const subjects = subjectData;
   const prismaSubjects = await findAllSubjects();
-  if (!prismaSubjects.length) {
+  if (prismaSubjects.length) {
     subjects.forEach(async (subject) => {
       const { subjectName, abbreviation } = subject;
-      await prisma.subject.create({
-        data: { subjectName, abbreviation },
+      const existingSubject = await prisma.subject.findUnique({
+        where: {
+          subjectName,
+        },
       });
+      if (!existingSubject) {
+        await prisma.subject.create({
+          data: { subjectName, abbreviation },
+        });
+        console.log(`New subject ${subjectName} added. Reinitializing table.`);
+      }
     });
-    console.log("Subjects initialized");
   }
 };
 
@@ -37,7 +44,15 @@ const findAllSubjects = async () => {
 const findSubject = async (subjectName) => {
   return await prisma.subject.findUnique({
     where: {
-      subjectName: subjectName,
+      subjectName,
+    },
+  });
+};
+
+const findSubjectById = async (id) => {
+  return await prisma.subject.findUnique({
+    where: {
+      id: parseInt(id),
     },
   });
 };
@@ -46,9 +61,23 @@ const deleteAllSubjects = async () => {
   return await prisma.subject.deleteMany({});
 };
 
+const updateSubjectViews = async (id) => {
+  let subject = await findSubjectById(id);
+  return await prisma.subject.update({
+    where: {
+      id: parseInt(id),
+    },
+    data: {
+      subjectViews: (subject.subjectViews += 1),
+    },
+  });
+};
+
 module.exports = {
   initSubjects,
   findAllSubjects,
   deleteAllSubjects,
   findSubject,
+  findSubjectById,
+  updateSubjectViews,
 };
