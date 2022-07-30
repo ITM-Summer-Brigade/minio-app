@@ -55,10 +55,10 @@ model Tag {
 model Subject {
   id           Int     @id @default(autoincrement())
   subjectName  String
-  subjectViews Int
+  subjectViews Int     @default(0)
+  abbreviation String
   files        File[]
   classes      Class[]
-  classId      Int     @unique
   Post         Post[]
 }
 
