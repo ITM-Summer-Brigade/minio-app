@@ -10,28 +10,109 @@ datasource db {
   url      = "file:./minio.db"
 }
 
+model File {
+  id               Int      @id @default(autoincrement())
+  fileName         String
+  uploadedAtDate   DateTime @default(now())
+  lastModifiedDate DateTime
+  size             Int
+  fileType         String
+  fileUrl          String
+  subjectName      String
+  Subject          Subject? @relation(fields: [subjectId], references: [id])
+  subjectId        Int?
+  folder           Folder?  @relation(fields: [folderId], references: [id])
+  folderId         Int?
+  Class            Class?   @relation(fields: [classId], references: [id])
+  classId          Int?
+  Post             Post?
+}
+
+model Class {
+  id          Int       @id @default(autoincrement())
+  className   String
+  classUrl    String
+  createdAt   DateTime  @default(now())
+  creatorName User      @relation(fields: [creatorId], references: [id])
+  creatorId   Int       @unique
+  userList    User[]    @relation("classList")
+  teacherName String
+  bucket      Bucket    @relation(fields: [bucketId], references: [id])
+  bucketId    Int       @unique
+  subject     Subject[]
+  subjectID   Int       @unique
+  files       File[]
+  tags        Tag[]
+  Post        Post[]
+}
+
+model Tag {
+  id      Int     @id @default(autoincrement())
+  tagName String
+  Class   Class[]
+}
+
+model Subject {
+  id           Int     @id @default(autoincrement())
+  subjectName  String
+  subjectViews Int
+  files        File[]
+  classes      Class[]
+  classId      Int     @unique
+  Post         Post[]
+}
+
 model Post {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String
   content   String?
-  published Boolean  @default(false)
+  verified  Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  class     Class?   @relation(fields: [classId], references: [id])
+  file      File?    @relation(fields: [fileId], references: [id])
+  subjectId Int?
+  classId   Int?
+  fileId    Int?     @unique
 }
 
 model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
+  id         Int     @id @default(autoincrement())
+  bio        String?
+  profileUrl String
+  user       User    @relation(fields: [userId], references: [id])
+  userId     Int     @unique
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  firstName      String
+  lastName       String?
+  posts          Post[]
+  profile        Profile?
+  belongsToClass Class[]  @relation("classList")
+  creatorList    Class[]
+  bucket         Bucket   @relation(fields: [bucketId], references: [id])
+  bucketId       Int      @unique
+}
+
+model Folder {
+  id                Int     @id @default(autoincrement())
+  folderName        String
+  folderDescription String?
+  files             File[]
+}
+
+model Bucket {
+  id         Int      @id @default(autoincrement())
+  bucketName String
+  bucketUrl  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Class      Class?
+  User       User?
 }
