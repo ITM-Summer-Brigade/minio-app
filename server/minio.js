@@ -9,13 +9,7 @@ const minioClient = new Minio.Client({
 });
 
 // File that needs to be uploaded.
-const makeBucket = (bucketName, fileName, filePath) => {
-  // Make a bucket called europetrip.
-  //   minioClient.makeBucket(bucketName, "us-east-1", function (err) {
-  //     if (err) return console.log(err);
-
-  //     console.log('Bucket created successfully in "us-east-1".');
-
+const uploadFile = (bucketName, fileName, filePath) => {
   const metaData = {
     "Content-Type": "application/octet-stream",
     "X-Amz-Meta-Testing": 1234,
@@ -37,4 +31,39 @@ const makeBucket = (bucketName, fileName, filePath) => {
   );
 };
 
-module.exports = { makeBucket, minioClient };
+const createBucket = (bucketName) => {
+  // Make a bucket
+  const cleanBucketName = bucketName.toLowerCase().split(" ").join("");
+  const uniqueBucket = cleanBucketName + "bucket";
+  // + String(Date.now()).slice(-2);
+
+  minioClient.makeBucket(uniqueBucket, "us-east-1", function (err) {
+    if (err) return console.log("Bucket exists");
+
+    console.log(`Bucket ${uniqueBucket} created successfully in "us-east-1".`);
+  });
+
+  return uniqueBucket;
+};
+
+const checkBucketExists = (bucketName) => {
+  return minioClient.bucketExists(bucketName, function (err, exists) {
+    if (err) return console.log(err);
+    if (exists) return exists;
+  });
+};
+
+const getBucketUrl = (bucketName) => {
+  minioClient.presignedUrl(
+    "POST",
+    bucketName,
+    "",
+    24 * 60 * 60,
+    function (err, presignedUrl) {
+      if (err) return console.log(err);
+      console.log(presignedUrl);
+    }
+  );
+};
+
+module.exports = { uploadFile, minioClient, createBucket, getBucketUrl };

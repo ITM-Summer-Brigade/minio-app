@@ -31,16 +31,16 @@ model File {
 model Class {
   id          Int       @id @default(autoincrement())
   className   String
-  classUrl    String
+  classUrl    String    @unique
   createdAt   DateTime  @default(now())
   creatorName User      @relation(fields: [creatorId], references: [id])
-  creatorId   Int       @unique
+  creatorId   Int
   userList    User[]    @relation("classList")
   teacherName String
   bucket      Bucket    @relation(fields: [bucketId], references: [id])
   bucketId    Int       @unique
   subject     Subject[]
-  subjectID   Int       @unique
+  subjectID   Int
   files       File[]
   tags        Tag[]
   Post        Post[]
@@ -54,7 +54,7 @@ model Tag {
 
 model Subject {
   id           Int     @id @default(autoincrement())
-  subjectName  String
+  subjectName  String  @unique
   subjectViews Int     @default(0)
   abbreviation String
   files        File[]
@@ -110,7 +110,7 @@ model Folder {
 model Bucket {
   id         Int      @id @default(autoincrement())
   bucketName String
-  bucketUrl  String
+  bucketUrl  String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   Class      Class?

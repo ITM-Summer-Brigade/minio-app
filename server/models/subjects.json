@@ -1,0 +1,14 @@
+[
+    {
+        "subjectName": "History",
+        "abbreviation": "HIST"
+    },
+    {
+        "subjectName": "Computer Science",
+        "abbreviation": "CS"
+    },
+    {
+        "subjectName": "Chemistry",
+        "abbreviation": "CHEM"
+    }
+]

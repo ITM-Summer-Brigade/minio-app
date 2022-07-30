@@ -1,6 +1,10 @@
-const { makeBucket } = require("./minio");
+const { uploadFile } = require("./minio");
 const express = require("express");
 const app = express();
+// prisma init
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+const { initSubjects } = require("./models/subject.model");
 
 // For handling multipart/form-data (aka. files)
 const multer = require("multer");
@@ -31,7 +35,7 @@ app.post("/api/files", upload.single("file"), (req, res) => {
   console.log(req.file);
   console.log(typeof req.file);
   bucketName = "testdevbucket";
-  makeBucket(bucketName, fileName, filePath);
+  uploadFile(bucketName, fileName, filePath);
   res.send({
     message: "Bucket created successfully",
   });
@@ -42,5 +46,15 @@ app.use("/class", classRouter);
 app.use("/auth", authRouter);
 
 app.listen(port, () => {
+  // initialize the database
+  initSubjects()
+    .then(async () => {
+      await prisma.$disconnect();
+    })
+    .catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+      process.exit(1);
+    });
   console.log(`Listening on port ${port}`);
 });

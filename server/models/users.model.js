@@ -7,12 +7,6 @@ const createPrismaUser = async (name, email) => {
     data: {
       name,
       email,
-      posts: {
-        create: { title: "My name is" + name },
-      },
-      profile: {
-        create: { bio: "I like turtles" },
-      },
     },
   });
   return newUser;
