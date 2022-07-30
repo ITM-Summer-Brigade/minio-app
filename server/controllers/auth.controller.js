@@ -1,3 +1,4 @@
+const { createBucket } = require("../minio");
 const {
   createPrismaUser,
   findAllUsers,
@@ -25,14 +26,18 @@ function getAllUsers(req, res) {
 
 // Prisma
 async function createUserPrisma(req, res) {
-  const { name, username } = req.body;
-  const existingUser = await findUser(username);
+  const { firstName, lastName, email } = req.body;
+  const existingUser = await findUser(email);
   if (existingUser) {
     return res
       .status(400)
       .json({ message: "User with that email already exists" });
   }
-  const user = await createPrismaUser(name, username);
+
+  const userBucketName = firstName.charAt(0) + lastName.slice(0, 4);
+  const bucketName = createBucket(userBucketName);
+
+  const user = await createPrismaUser(firstName, lastName, email, bucketName);
   console.log(user);
   return res.status(200).json({ message: "User created successfully" });
 }

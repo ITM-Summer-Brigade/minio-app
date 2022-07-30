@@ -2,11 +2,17 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const createPrismaUser = async (name, email) => {
+const createPrismaUser = async (firstName, lastName, email, bucketName) => {
   const newUser = await prisma.user.create({
     data: {
-      name,
+      firstName,
+      lastName,
       email,
+      bucket: {
+        create: {
+          bucketName,
+        },
+      },
     },
   });
   return newUser;
@@ -24,10 +30,10 @@ const findAllUsers = async () => {
   return allUsers;
 };
 
-const findUser = async (username) => {
+const findUser = async (email) => {
   const user = await prisma.user.findUnique({
     where: {
-      email: username,
+      email,
     },
   });
 

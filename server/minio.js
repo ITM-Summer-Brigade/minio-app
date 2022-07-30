@@ -1,4 +1,5 @@
 const Minio = require("minio");
+const { createPrismaBucket } = require("./models/bucket.model");
 
 const minioClient = new Minio.Client({
   endPoint: "192.168.172.50",
@@ -34,15 +35,14 @@ const uploadFile = (bucketName, fileName, filePath) => {
 const createBucket = (bucketName) => {
   // Make a bucket
   const cleanBucketName = bucketName.toLowerCase().split(" ").join("");
-  const uniqueBucket = cleanBucketName + "bucket";
-  // + String(Date.now()).slice(-2);
+  uniqueBucket = cleanBucketName + "bucket" + String(Date.now()).slice(-4);
 
-  minioClient.makeBucket(uniqueBucket, "us-east-1", function (err) {
+  minioClient.makeBucket(uniqueBucket, "us-east-1", async function (err) {
     if (err) return console.log("Bucket exists");
 
     console.log(`Bucket ${uniqueBucket} created successfully in "us-east-1".`);
+    // const bucket = await createPrismaBucket(uniqueBucket);
   });
-
   return uniqueBucket;
 };
 

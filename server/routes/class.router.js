@@ -9,6 +9,7 @@ const classRouter = express.Router({ mergeParams: true });
 
 // set api routes
 classRouter.get("/", classController.getAllClasses);
+classRouter.get("/:classUrl", classController.getClassByUrl);
 
 subjectRouter.use("/:subjectId/class", classController.getAllClassesBySubject);
 classRouter.post("/", classController.postClass);

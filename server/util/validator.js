@@ -30,14 +30,11 @@ const checkUserExists = validate([
 const validatePUser = validate([
   // body("username", "Email must not be empty").not().isEmpty(),
   // body("username", "Must be a valid email").isEmail().normalizeEmail(),
-  body("username")
+  body("firstName")
     .not()
     .isEmpty()
-    .withMessage("Username field must not be empty")
-    .isEmail()
-    .withMessage("Must be a valid email")
-    .normalizeEmail(),
-  body("name", "Name field must not be empty").not().isEmpty(),
+    .withMessage("firstName field must not be empty"),
+  body("email").isEmail().withMessage("Must be a valid email").normalizeEmail(),
 ]);
 
 module.exports = { validateUser, checkUserExists, validatePUser };
