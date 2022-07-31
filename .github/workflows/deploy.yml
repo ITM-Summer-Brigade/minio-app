@@ -26,11 +26,11 @@ jobs:
 
       - name: Create and populate .env file
         env:
-          clientId: ${{ secrets.CLIENTID }}
+          clientID: ${{ secrets.CLIENTID }}
           clientSecret: ${{ secrets.CLIENTSECRET }}
         run: |
           touch .env
-          echo clientId="$clientId" >> .env
+          echo clientID="$clientID" >> .env
           echo clientSecret="$clientSecret" >> .env
 
           echo "cat .env"
