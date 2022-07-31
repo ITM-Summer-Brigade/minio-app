@@ -8,3 +8,5 @@ services:
     build: server/.
     network_mode: 'host'
     restart: 'always'
+    env_file:
+    - .env

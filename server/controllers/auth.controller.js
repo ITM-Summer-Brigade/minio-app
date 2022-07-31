@@ -51,7 +51,7 @@ async function logout(req, res) {
     return res.json({ message: "You are currently not logged in" });
   }
   req.session.destroy();
-  console.log("Logged out!");
+  console.log("Logged out! testing pipeline");
   return res.redirect(homeUrl);
 }
 
