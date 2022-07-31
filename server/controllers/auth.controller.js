@@ -14,18 +14,6 @@ function working(req, res) {
   res.status(200).json({ message: "Working" });
 }
 
-// function createUser(req, res) {
-//   const { username, password } = req.body;
-
-//   const user = { id: userList.length + 1, user: username, pass: password };
-//   userList.push(user);
-//   return res.status(200).json({ message: "User created successfully", user });
-// }
-
-// function getAllUsers(req, res) {
-//   return res.status(200).json(userList);
-// }
-
 // Prisma
 async function createUserPrisma(req, res) {
   const { firstName, lastName, email } = req.body;
@@ -76,8 +64,6 @@ async function getCurrentUser(req, res) {
 
 module.exports = {
   working,
-  // createUser,
-  // getAllUsers,
   createUserPrisma,
   getPrismaUsers,
   redirectGoogle,
