@@ -6,8 +6,8 @@
   "scripts": {
     "generate": "npx prisma generate",
     "build": "npm run generate",
-    "start": "NODE_ENV=production npm run build && node index.js",
-    "dev": "set NODE_ENV=dev&& nodemon index.js"
+    "start": "cross-env NODE_ENV=production npm run build && node index.js",
+    "dev": "cross-env NODE_ENV=dev nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "@prisma/client": "^4.1.1",
     "connect-sqlite3": "^0.9.13",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
