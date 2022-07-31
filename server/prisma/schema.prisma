@@ -11,19 +11,18 @@ datasource db {
 }
 
 model File {
-  id               Int      @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   fileName         String
-  uploadedAtDate   DateTime @default(now())
-  lastModifiedDate DateTime
+  uploadedAtDate   DateTime  @default(now())
+  lastModifiedDate DateTime? @default(now()) @updatedAt
   size             Int
   fileType         String
-  fileUrl          String
-  subjectName      String
-  Subject          Subject? @relation(fields: [subjectId], references: [id])
+  fileUrl          String    @unique
+  subject          Subject?  @relation(fields: [subjectId], references: [id])
   subjectId        Int?
-  folder           Folder?  @relation(fields: [folderId], references: [id])
+  folder           Folder?   @relation(fields: [folderId], references: [id])
   folderId         Int?
-  Class            Class?   @relation(fields: [classId], references: [id])
+  Class            Class?    @relation(fields: [classId], references: [id])
   classId          Int?
   Post             Post?
 }

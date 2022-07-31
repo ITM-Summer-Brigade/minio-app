@@ -17,6 +17,14 @@ const findClassesBySubject = async (subjectID) => {
   });
 };
 
+const findClassById = async (classId) => {
+  return await prisma.class.findUnique({
+    where: {
+      classId,
+    },
+  });
+};
+
 const findClass = async (classUrl) => {
   return await prisma.class.findUnique({
     where: {
@@ -57,4 +65,5 @@ module.exports = {
   createClass,
   findClass,
   findClassesBySubject,
+  findClassById,
 };

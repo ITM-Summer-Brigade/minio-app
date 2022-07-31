@@ -1,4 +1,3 @@
-const { uploadFile } = require("./minio");
 const express = require("express");
 const app = express();
 // prisma init
@@ -6,15 +5,15 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const { initSubjects } = require("./models/subject.model");
 
-// For handling multipart/form-data (aka. files)
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
-
 // set up cors
 const cors = require("cors");
+
+// set up routes
 const classRouter = require("./routes/class.router");
 const authRouter = require("./routes/auth.router");
 const subjectRouter = require("./routes/subject.router");
+const fileRouter = require("./routes/file.router");
+
 app.use(cors());
 
 // set up form parsing
@@ -28,24 +27,11 @@ app.get("/working", (req, res) => {
   res.send("It's working!");
 });
 
-app.post("/api/files", upload.single("file"), (req, res) => {
-  const { originalname: fileName, path: filePath } = req.file;
-  if (!req.file) {
-    return res.status(400).json({ message: "Missing a file to upload" });
-  }
-  console.log(req.file);
-  console.log(typeof req.file);
-  bucketName = "testdevbucket";
-  uploadFile(bucketName, fileName, filePath);
-  res.send({
-    message: "Bucket created successfully",
-  });
-});
-
 // activate routers
 app.use("/class", classRouter);
 app.use("/auth", authRouter);
 app.use("/subject", subjectRouter);
+app.use("/files", fileRouter);
 
 app.listen(port, () => {
   // initialize the database
