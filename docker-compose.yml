@@ -3,6 +3,8 @@ services:
   client:
     build: client/.
     network_mode: 'host'
+    restart: 'always'
   server:
     build: server/.
     network_mode: 'host'
+    restart: 'always'
