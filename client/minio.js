@@ -2,7 +2,11 @@
 
 const submitFileBtn = document.querySelector(".fileSubmit");
 const uploadFileBtn = document.querySelector(".fileInfo");
+const googleBtn = document.querySelector(".google-btn");
 const fileInfo = document.querySelector(".fileInfo");
+const logoutBtn = document.querySelector(".logout-btn");
+const checkBtn = document.querySelector(".check-btn");
+
 const reader = new FileReader();
 
 const handleFiles = async (e) => {
@@ -74,4 +78,32 @@ const postFileData = async (formData) => {
   return res.json();
 };
 
+const logout = async (e) => {
+  e.preventDefault();
+  const res = await fetch("http://localhost:3005/auth/logout", {
+    method: "GET",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  const result = await res.json();
+  console.log(result);
+};
+
+const checkCurrent = async (e) => {
+  e.preventDefault();
+  const res = await fetch("http://localhost:3005/auth/currentUser", {
+    method: "GET",
+    credentials: "same-origin",
+
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  const result = await res.json();
+  console.log(result.message);
+};
+
 uploadFileBtn.addEventListener("change", handleFiles);
+logoutBtn.addEventListener("click", logout);
+checkBtn.addEventListener("click", checkCurrent);
