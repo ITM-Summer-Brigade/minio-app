@@ -2,7 +2,12 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const createPrismaUser = async (firstName, lastName, email, bucketName) => {
+const { createBucket } = require("../minio");
+
+const createPrismaUser = async (firstName, lastName, email) => {
+  const userBucketName = firstName.charAt(0) + lastName.slice(0, 4);
+  const bucketName = createBucket(userBucketName);
+
   const newUser = await prisma.user.create({
     data: {
       firstName,
@@ -15,6 +20,40 @@ const createPrismaUser = async (firstName, lastName, email, bucketName) => {
       },
     },
   });
+
+  return newUser;
+};
+
+const findSessionId = async (sessionId) => {
+  return await prisma.session.findUnique({
+    where: {
+      sessionId,
+    },
+  });
+};
+
+const findOrCreatePrismaUser = async (firstName, lastName, email) => {
+  const existingUser = findUser(email);
+  if (existingUser) {
+    return existingUser;
+  }
+
+  const userBucketName = firstName.charAt(0) + lastName.slice(0, 4);
+  const bucketName = createBucket(userBucketName);
+
+  const newUser = await prisma.user.create({
+    data: {
+      firstName,
+      lastName,
+      email,
+      bucket: {
+        create: {
+          bucketName,
+        },
+      },
+    },
+  });
+
   return newUser;
 };
 
@@ -40,4 +79,9 @@ const findUser = async (email) => {
   return user;
 };
 
-module.exports = { findAllUsers, createPrismaUser, findUser };
+module.exports = {
+  findAllUsers,
+  createPrismaUser,
+  findUser,
+  findOrCreatePrismaUser,
+};
