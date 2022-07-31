@@ -24,11 +24,23 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Create .env file
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_clientId: ${{ secrets.CLIENTID }}
-          envkey_clientSecret: ${{ secrets.CLIENTSECRET }}
+      - name: Create and populate .env file
+        env:
+          clientId: ${{ secrets.CLIENTID }}
+          clientSecret: ${{ secrets.CLIENTSECRET }}
+        run: |
+          touch .env
+          echo clientId="$clientId" >> .env
+          echo clientSecret="$clientSecret" >> .env
+
+          echo "cat .env"
+          cat .env
+
+          echo "ls -a ."
+          ls -a .
+
+        shell: bash
+
       # Steps to deploy
       - name: Deploy the docker compose container
         run: sudo docker compose up -d --build 
