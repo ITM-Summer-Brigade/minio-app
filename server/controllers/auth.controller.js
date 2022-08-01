@@ -7,7 +7,7 @@ const {
 const homeUrl =
   process.env.NODE_ENV === "dev"
     ? "http://127.0.0.1:5500/minio-fileapp/client/index.html"
-    : "http://192.168.172.75/";
+    : "http://rescirect.io";
 
 function working(req, res) {
   console.log("working");
