@@ -40,7 +40,7 @@ async function redirectGoogle(req, res) {
 
   req.session.save(function (err) {
     if (err) return next(err);
-    return res.redirect(homeUrl);
+    return res.redirect(homeUrl + ":3005");
   });
 }
 

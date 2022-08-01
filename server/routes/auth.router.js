@@ -23,7 +23,7 @@ const authRouter = express.Router();
 const homeUrl =
   process.env.NODE_ENV == "dev"
     ? "http://127.0.0.1:5500/minio-fileapp/client/index.html"
-    : "http://rescirect.io";
+    : "http://rescirect.io:3005";
 
 // set api routes
 authRouter.get("/", authController.working);
