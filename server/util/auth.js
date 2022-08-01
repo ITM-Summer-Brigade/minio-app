@@ -7,7 +7,7 @@ function activateGoogleOAuth() {
   const homeUrl =
     process.env.NODE_ENV == "dev"
       ? "http://localhost:3005/auth/google/callback"
-      : "http://rescirect.io/auth/google/callback";
+      : "http://rescirect.io:3005/auth/google/callback";
 
   passport.initialize();
   passport.session();
