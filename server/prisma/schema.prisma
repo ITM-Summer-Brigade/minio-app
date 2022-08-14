@@ -33,13 +33,14 @@ model Class {
   teacherName String
   bucketId    Int       @unique
   subjectID   Int
-  bucket      Bucket    @relation(fields: [bucketId], references: [id])
+  bucket      Bucket    @relation(fields: [bucketId], references: [id], onDelete: Cascade)
   creatorName User      @relation(fields: [creatorId], references: [id])
   files       File[]
   Post        Post[]
   subject     Subject[]
   tags        Tag[]
   userList    User[]    @relation("classList")
+  deleted     Boolean   @default(false)
 }
 
 model Tag {

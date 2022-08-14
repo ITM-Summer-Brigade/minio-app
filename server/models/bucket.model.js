@@ -2,9 +2,19 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const findBucket = async () => {
+const findBucket = async (id) => {
   return prisma.bucket.findUnique({
-    where: {},
+    where: {
+      id: parseInt(id),
+    },
+  });
+};
+
+const removeBucket = async (id) => {
+  return prisma.bucket.delete({
+    where: {
+      id: parseInt(id),
+    },
   });
 };
 
@@ -19,4 +29,5 @@ const createPrismaBucket = async (bucketName) => {
 module.exports = {
   findBucket,
   createPrismaBucket,
+  removeBucket,
 };

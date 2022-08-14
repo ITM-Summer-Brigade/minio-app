@@ -1,7 +1,10 @@
+const { deleteBucket } = require("../minio");
+const { findBucket, removeBucket } = require("../models/bucket.model");
 const {
   findAllClasses,
   createClass,
   findClass,
+  removeClass,
   findClassesBySubject,
 } = require("../models/class.model");
 
@@ -30,6 +33,24 @@ async function postClass(req, res) {
     console.log(e);
     return res.status(500).json({ message: "Something went wrong" });
   }
+}
+
+async function deleteClass(req, res) {
+  const { classUrl } = req.params;
+  const finUrl = "/class/" + classUrl;
+  const existingClass = await findClass(finUrl);
+
+  if (!existingClass) {
+    return res.status(404).json({ message: "Class does not exist" });
+  }
+
+  const linkedBucket = await findBucket(existingClass.bucketId);
+  console.log(linkedBucket);
+  // Delete bucket from mino
+  deleteBucket(linkedBucket.bucketName);
+  const deletedClass = await removeClass(finUrl);
+  console.log(deletedClass);
+  return res.status(200).json({ message: "Class deleted successfully" });
 }
 
 async function getAllClasses(req, res) {
@@ -64,6 +85,7 @@ async function getAllClassesBySubject(req, res) {
 module.exports = {
   getAllClasses,
   postClass,
+  deleteClass,
   getAllClassesBySubject,
   getClassByUrl,
 };

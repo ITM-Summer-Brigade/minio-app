@@ -19,7 +19,7 @@ const initSubjects = async () => {
   //   });
   const subjects = subjectData;
   const prismaSubjects = await findAllSubjects();
-  if (prismaSubjects.length) {
+  if (!prismaSubjects.length) {
     subjects.forEach(async (subject) => {
       const { subjectName, abbreviation } = subject;
       const existingSubject = await prisma.subject.findUnique({

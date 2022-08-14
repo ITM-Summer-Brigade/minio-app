@@ -46,6 +46,13 @@ const createBucket = (bucketName) => {
   return uniqueBucket;
 };
 
+const deleteBucket = (bucketName) => {
+  minioClient.removeBucket(bucketName, (err) => {
+    if (err) return console.log("Unable to remove bucket");
+    console.log("Bucket removed successfully.");
+  });
+};
+
 const checkBucketExists = (bucketName) => {
   return minioClient.bucketExists(bucketName, function (err, exists) {
     if (err) return console.log(err);
@@ -66,4 +73,10 @@ const getBucketUrl = (bucketName) => {
   );
 };
 
-module.exports = { uploadFile, minioClient, createBucket, getBucketUrl };
+module.exports = {
+  uploadFile,
+  minioClient,
+  createBucket,
+  getBucketUrl,
+  deleteBucket,
+};

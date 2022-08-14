@@ -60,10 +60,19 @@ const createClass = async (
   });
 };
 
+const removeClass = async (classUrl) => {
+  return await prisma.class.delete({
+    where: {
+      classUrl,
+    },
+  });
+};
+
 module.exports = {
   findAllClasses,
   createClass,
   findClass,
   findClassesBySubject,
   findClassById,
+  removeClass,
 };
