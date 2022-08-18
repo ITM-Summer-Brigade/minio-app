@@ -28,10 +28,10 @@ const Home: NextPage = () => {
   }
 
   async function postFileData(formData: any) {
-    const data = {
-      bucketName: "testdevbucket",
-      fileName,
-    };
+    // const data = {
+    //   bucketName: "testdevbucket",
+    //   fileName,
+    // };
     const res = await fetch("http://192.168.172.75:3005/files", {
       method: "POST",
       headers: {

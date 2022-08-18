@@ -54,6 +54,10 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = 3005;
 
+app.get("/", (req, res) => {
+  res.send("Hello world!");
+});
+
 app.get("/working", (req, res) => {
   console.log("it works");
   res.send("It's working!");
