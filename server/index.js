@@ -45,6 +45,7 @@ app.use(passport.session());
 const classRouter = require("./routes/class.router");
 const subjectRouter = require("./routes/subject.router");
 const fileRouter = require("./routes/file.router");
+const { findBucket } = require("./models/bucket.model");
 
 app.use(cors());
 
@@ -68,6 +69,13 @@ app.use("/class", classRouter);
 app.use("/auth", authRouter);
 app.use("/subject", subjectRouter);
 app.use("/files", fileRouter);
+
+app.get("/bucket/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const bucketInfo = await findBucket(id);
+  return res.json(bucketInfo);
+});
 
 app.listen(port, () => {
   // initialize the database

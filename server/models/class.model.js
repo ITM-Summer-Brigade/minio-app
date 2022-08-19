@@ -20,7 +20,7 @@ const findClassesBySubject = async (subjectID) => {
 const findClassById = async (classId) => {
   return await prisma.class.findUnique({
     where: {
-      classId,
+      id: parseInt(classId),
     },
   });
 };

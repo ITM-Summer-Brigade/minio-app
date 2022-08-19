@@ -6,13 +6,19 @@ const {
   findClass,
   removeClass,
   findClassesBySubject,
+  findClassById,
 } = require("../models/class.model");
 
 // On class creation, a bucket should be created for the class and the person
 // who created it should be an admin. The admin will be assigned as the
 // creator of the classroom
 async function postClass(req, res) {
+  console.log(req.body);
+
   const { className, teacherName, subjectName, creatorEmail } = req.body;
+  if (!className || !teacherName || !subjectName || !creatorEmail) {
+    return res.status(400).json({ message: "Missing data from form" });
+  }
   try {
     const autoUrl = "/class/" + className.toLowerCase().split(" ").join("");
     const existingClass = await findClass(autoUrl);
@@ -72,6 +78,16 @@ async function getClassByUrl(req, res) {
   return res.status(200).json(classInfo);
 }
 
+async function getClassById(req, res) {
+  const { classId } = req.params;
+  console.log(classId);
+  const classInfo = await findClassById(classId);
+  if (!classInfo) {
+    return res.status(404).json({ message: "Class not found" });
+  }
+  return res.status(200).json(classInfo);
+}
+
 async function getAllClassesBySubject(req, res) {
   const { subjectId } = req.params;
   const classList = await findClassesBySubject(subjectId);
@@ -88,4 +104,5 @@ module.exports = {
   deleteClass,
   getAllClassesBySubject,
   getClassByUrl,
+  getClassById,
 };

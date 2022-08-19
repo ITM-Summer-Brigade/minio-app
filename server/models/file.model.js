@@ -7,10 +7,10 @@ const findAllFiles = async () => {
   return await prisma.file.findMany({});
 };
 
-const findFilesByClass = async (classUrl) => {
+const findFilesByClass = async (classId) => {
   return await prisma.file.findMany({
     where: {
-      classUrl,
+      classId: parseInt(classId),
     },
   });
 };
@@ -23,7 +23,35 @@ const findFilesBySubject = async (subjectId) => {
   });
 };
 
-const saveFileInfo = async (fileName, size, fileType, fileUrl) => {
+const saveFileInfo = async (
+  fileName,
+  size,
+  fileType,
+  fileUrl,
+  bucketType,
+  id = -1
+) => {
+  if (bucketType === "class") {
+    return await prisma.file.create({
+      data: {
+        fileName,
+        size,
+        fileType,
+        fileUrl,
+        classId: parseInt(id),
+      },
+    });
+  }
+  if (bucketType === "user") {
+    return await prisma.file.create({
+      data: {
+        fileName,
+        size,
+        fileType,
+        fileUrl,
+      },
+    });
+  }
   return await prisma.file.create({
     data: {
       fileName,

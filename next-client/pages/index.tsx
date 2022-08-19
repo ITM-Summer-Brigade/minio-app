@@ -1,50 +1,22 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { ChangeEventHandler, useState } from "react";
+import { handleFiles, postFileData } from "../lib/fetcher";
 
-interface HTMLInputEvent extends Event {
+interface HTMLInputEvent extends ChangeEventHandler<HTMLInputElement> {
   target: HTMLInputElement & EventTarget;
 }
+
+const devUrl = "http://192.168.172.86:3005";
 
 const Home: NextPage = () => {
   const [fileName, setFileName] = useState("");
 
   async function login() {}
 
-  async function handleFiles(e: HTMLInputEvent) {
-    let files = e.target.files;
-
-    if (!files) {
-      console.log("No files available in the list");
-    }
-    const firstFile = files[0];
-    const fileStream = await firstFile.arrayBuffer();
-    console.log(fileStream);
-
-    const viewer = document.querySelector(".view");
-    const obj_url = URL.createObjectURL(firstFile);
-    viewer.setAttribute("src", obj_url);
-    URL.revokeObjectURL(obj_url);
-  }
-
-  async function postFileData(formData: any) {
-    // const data = {
-    //   bucketName: "testdevbucket",
-    //   fileName,
-    // };
-    const res = await fetch("http://192.168.172.75:3005/files", {
-      method: "POST",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: formData,
-    });
-    return res.json();
-  }
-
   const logout = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3005/auth/logout", {
+    const res = await fetch(`${devUrl}/auth/logout`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -56,7 +28,7 @@ const Home: NextPage = () => {
 
   const checkCurrent = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3005/auth/currentUser", {
+    const res = await fetch(`${devUrl}/auth/currentUser`, {
       method: "GET",
       credentials: "same-origin",
 
@@ -72,11 +44,19 @@ const Home: NextPage = () => {
     <>
       <nav>
         <ul className="flex gap-5 justify-end m-8">
-          <li> Home</li>
+          <Link href="/">
+            <a>Home</a>
+          </Link>
           <li> Login</li>
-          <li> Sign up</li>
+          <Link href="/browse">
+            <a>Browse</a>
+          </Link>
+          <Link href="/register">
+            <a>Sign Up</a>
+          </Link>
         </ul>
       </nav>
+
       <main className="">
         <header className="flex flex-col justify-center items-center">
           <h1 className="text-lg text-yellow-700">Minio File App</h1>
@@ -113,6 +93,7 @@ const Home: NextPage = () => {
               className="border rounded"
               name="file"
               id=""
+              onChange={handleFiles}
               accept="image/*, .pdf"
             />
             <button

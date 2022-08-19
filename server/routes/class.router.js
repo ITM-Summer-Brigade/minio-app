@@ -10,6 +10,7 @@ const classRouter = express.Router({ mergeParams: true });
 // set api routes
 classRouter.get("/", classController.getAllClasses);
 classRouter.get("/:classUrl", classController.getClassByUrl);
+// classRouter.get("/:classId", classController.getClassById);
 classRouter.delete("/:classUrl", classController.deleteClass);
 
 subjectRouter.use("/:subjectId/class", classController.getAllClassesBySubject);

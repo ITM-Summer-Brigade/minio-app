@@ -16,6 +16,7 @@ const fileRouter = express.Router({ mergeParams: true });
 // set api routes
 fileRouter.get("/", fileController.getFiles);
 fileRouter.post("/", upload.single("file"), fileController.postFile);
+fileRouter.get("/search?", fileController.getFile);
 
 subjectRouter.use("/:subjectId/files", fileController.getFilesBySubject);
 classRouter.use("/:classUrl/files", fileController.getFilesByClass);

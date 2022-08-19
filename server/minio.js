@@ -27,7 +27,7 @@ const uploadFile = (bucketName, fileName, filePath) => {
         console.log(err);
         return err;
       }
-      console.log("File uploaded successfully.");
+      console.log("File uploaded successfully to " + bucketName);
     }
   );
 };
@@ -73,10 +73,40 @@ const getBucketUrl = (bucketName) => {
   );
 };
 
+const getFileData = (bucketName, fileName) => {
+  let size = 0;
+  minioClient.getObject(bucketName, fileName, function (err, dataStream) {
+    if (err) {
+      return console.log(err);
+    }
+    dataStream.on("data", function (chunk) {
+      size += chunk.length;
+    });
+    dataStream.on("end", function () {
+      console.log("End. Total size = " + size);
+    });
+    dataStream.on("error", function (err) {
+      console.log(err);
+    });
+  });
+};
+
+const getUploadedFile = (bucketName, fileName, filePath) => {
+  let size = 0;
+  minioClient.fGetObject(bucketName, fileName, filePath, function (err) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("success");
+  });
+};
+
 module.exports = {
   uploadFile,
   minioClient,
   createBucket,
   getBucketUrl,
   deleteBucket,
+  getFileData,
+  getUploadedFile,
 };
