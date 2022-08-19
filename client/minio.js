@@ -7,6 +7,8 @@ const fileInfo = document.querySelector(".fileInfo");
 const logoutBtn = document.querySelector(".logout-btn");
 const checkBtn = document.querySelector(".check-btn");
 
+const homeUrl = "http://192.168.172.86";
+
 const reader = new FileReader();
 
 const handleFiles = async (e) => {
@@ -68,7 +70,7 @@ const postFileData = async (formData) => {
     bucketName: "testdevbucket",
     fileName: uploadFileBtn.files[0].name,
   };
-  const res = await fetch("http://192.168.172.75:3005/files", {
+  const res = await fetch(`${homeUrl}:3005/files`, {
     method: "POST",
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -80,7 +82,7 @@ const postFileData = async (formData) => {
 
 const logout = async (e) => {
   e.preventDefault();
-  const res = await fetch("http://localhost:3005/auth/logout", {
+  const res = await fetch(`${homeUrl}/auth/logout`, {
     method: "GET",
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -92,7 +94,7 @@ const logout = async (e) => {
 
 const checkCurrent = async (e) => {
   e.preventDefault();
-  const res = await fetch("http://localhost:3005/auth/currentUser", {
+  const res = await fetch(`${homeUrl}/auth/currentUser`, {
     method: "GET",
     credentials: "same-origin",
 

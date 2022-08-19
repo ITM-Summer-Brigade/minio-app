@@ -10,3 +10,13 @@ services:
     restart: 'always'
     env_file:
     - .env
+  # nginx:
+  #   build: next-client/nginx/.
+  #   network_mode: 'host'
+  #   restart: 'always'
+  #   depends_on:
+  #   - next-client
+  next-client:
+    build: next-client/.
+    network_mode: 'host'
+    restart: 'always'

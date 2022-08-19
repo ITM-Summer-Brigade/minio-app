@@ -15,7 +15,7 @@ activateGoogleOAuth();
 
 // url
 const homeUrl =
-  process.env.NODE_ENV === "dev" ? "http://localhost" : "http://192.168.172.75";
+  process.env.NODE_ENV === "dev" ? "http://localhost" : "http://192.168.172.86";
 
 // set up sessions
 const session = require("express-session");
