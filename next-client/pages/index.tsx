@@ -1,7 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 import React, { ChangeEventHandler, useState } from "react";
-import { handleFiles, postFileData } from "../lib/fetcher";
+import { getBucketInfo, handleFiles, postFileData } from "../lib/fetcher";
 
 interface HTMLInputEvent extends ChangeEventHandler<HTMLInputElement> {
   target: HTMLInputElement & EventTarget;
@@ -38,6 +38,24 @@ const Home: NextPage = () => {
     });
     const result = await res.json();
     console.log(result.message);
+  };
+
+  const handleSubmit = async (e: any) => {
+    let file;
+    e.preventDefault();
+    const fileInfo = document.querySelector("#fileInfo") as HTMLInputElement;
+    file = fileInfo.files[0];
+
+    const fileStream = await file.arrayBuffer();
+    console.log(fileStream);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    formData.append("bucketName", "testdevbucket");
+    console.log(file);
+
+    const res = await postFileData(formData);
+    console.log(res);
   };
 
   return (
@@ -77,11 +95,7 @@ const Home: NextPage = () => {
             <button type="submit">Log in</button>
           </form>
 
-          <form
-            className="flex flex-col m-5"
-            encType="multipart/form-data"
-            onSubmit={postFileData}
-          >
+          <form className="flex flex-col m-5" encType="multipart/form-data">
             <label
               className="font-bold my-3 text-md text-center"
               htmlFor="file"
@@ -92,13 +106,14 @@ const Home: NextPage = () => {
               type="file"
               className="border rounded"
               name="file"
-              id=""
+              id="fileInfo"
               onChange={handleFiles}
               accept="image/*, .pdf"
             />
             <button
               className="border font-bold mt-2 border-black rounded-md bg-black text-white px-2 py-1"
               type="submit"
+              onClick={handleSubmit}
             >
               Save
             </button>

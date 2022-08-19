@@ -20,3 +20,5 @@ services:
     build: next-client/.
     network_mode: 'host'
     restart: 'always'
+    depends_on:
+      - server

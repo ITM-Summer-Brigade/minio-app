@@ -26,6 +26,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const classes = await getClassrooms();
+
   const paths = classes.map((classroom: any) => {
     return {
       params: {
@@ -35,8 +36,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   });
 
   return {
-    paths,
-    fallback: true,
+    paths: paths || [],
+    fallback: false,
   };
 };
 
